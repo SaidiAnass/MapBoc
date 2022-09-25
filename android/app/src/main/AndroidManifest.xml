@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.map_box_implementation">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="map_box_implementation"
         android:name="${applicationName}"
