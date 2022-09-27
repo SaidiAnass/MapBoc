@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:latlong/latlong.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       home: MyHomePage(),
      );
   }
@@ -25,32 +24,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  double long = 49.5;
+  double lat = -0.09;
+  LatLng point = LatLng(49.5, -0.09);
+  var location = [];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:  FlutterMap(
-        options: MapOptions(
-        center: LatLng(51.509364, -0.128928),
-        zoom: 9.2,
+    return Stack(
+      children: [
+        FlutterMap(
+          options: MapOptions(
+            onTap: (p){
+              setState(() {
+                point = p;
+              });
+            },
+            center: LatLng(49.5,-0.09), //Position the map in the center of certain coordinates
+            zoom: 10.0
+          ),
+          layers: [
+            TileLayerOptions(
+              urlTemplate: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+              subdomains: ['a','b','c'],
+            ),
+            MarkerLayerOptions(markers: [
+              Marker(
+                width: 80.0,
+                height: 80.0,
+                point: point,
+                builder: (ctx) => Container(
+                  child: Icon(
+                    Icons.location_on,
+                    color: Colors.red,
+                  ),
+                ),
+              )
+            ]),
+          ],
         ),
-        nonRotatedChildren: [
-        AttributionWidget.defaultWidget(
-        source: 'OpenStreetMap contributors',
-        onSourceTapped: null,
-        ),
-        ],
-        children: [
-        TileLayer(
-        urlTemplate: 'https://api.mapbox.com/styles/v1/saidianass/cl8hom8jg002615qrw43b25h5/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1Ijoic2FpZGlhbmFzcyIsImEiOiJjbDhob2RpbW8waXc2M3htcmM4dnI2aWcyIn0.umNwqqHTHTBrnAdbogIiMQ',
-        additionalOptions: {
-          'accessToken':'pk.eyJ1Ijoic2FpZGlhbmFzcyIsImEiOiJjbDhob2RpbW8waXc2M3htcmM4dnI2aWcyIn0.umNwqqHTHTBrnAdbogIiMQ',
-          'id':'mapbox.mapbox-streets-v8',
-        },
-        userAgentPackageName: 'com.example.app',
-        ),
-        ],
-        )
+      ],
+
     );
   }
 }
