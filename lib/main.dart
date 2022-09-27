@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:latlong/latlong.dart';
 
 void main() {
@@ -34,7 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
       children: [
         FlutterMap(
           options: MapOptions(
-            onTap: (p){
+            onTap: (p) async{
+              location = await Geocoder.local.findAddressesFromCoordinates(Coordinates(p.latitude, p.longitude));
               setState(() {
                 point = p;
               });
@@ -56,12 +58,35 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Icon(
                     Icons.location_on,
                     color: Colors.red,
+                    size: 30.0,
                   ),
                 ),
               )
             ]),
           ],
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 34.0, horizontal: 16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Card(
+                child: TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.location_on_outlined),
+                    hintText: "Search for Location",
+                    contentPadding: EdgeInsets.all(16.0),
+                  ),
+                ),
+              ),
+
+              Card(child: Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text("${location.first.countryName}, ${location.first.locality}, ${location.first.featureName}", style: TextStyle(fontWeight: FontWeight.bold)),
+              ),),
+            ]
+          ),
+        )
       ],
 
     );
