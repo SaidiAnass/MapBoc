@@ -29,6 +29,7 @@ class _MyHomePageState extends State<MyHomePage> {
   double lat = -0.09;
   LatLng point = LatLng(49.5, -0.09);
   var location = [];
+
   @override
   Widget build(BuildContext context) {
     return Stack(

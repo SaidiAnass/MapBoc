@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.ACCES_BACKGROUND_LOCATION"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application
-        android:label="map_box_implementation"
+        android:label="Map"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icons8_earth_globe">
         <activity
             android:name=".MainActivity"
             android:exported="true"
